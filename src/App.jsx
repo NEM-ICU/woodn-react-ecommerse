@@ -11,13 +11,16 @@ import Home from "./pages/Home.jsx";
 import Shop from "./pages/Shop.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Announcement from "./components/Announcement.jsx";
+import Footer from "./components/Footer.jsx";
+import ProductList from "./pages/ProductList.jsx";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        <Route index element={<Home />} />
+        <Route path="home" element={<Home />} />
         <Route path="shop" element={<Shop />} />
+        <Route index element={<ProductList />} />
       </Route>
     )
   );
@@ -32,6 +35,7 @@ const Root = () => {
       <div>
         <Outlet />
       </div>
+      <Footer />
     </>
   );
 };
