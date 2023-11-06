@@ -23,7 +23,7 @@ const Info = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(33, 33, 33, 0.5);
+  background-color: rgba(33, 33, 33, 0.4);
 `;
 
 const Title = styled.h1`

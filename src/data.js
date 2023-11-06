@@ -39,3 +39,38 @@ export const categories = [
     title: "Dining Room Furniture",
   },
 ];
+
+export const popularProducts = [
+  {
+    id: 1,
+    img: "https://img.edilportale.com/product-thumbs/b_PERRY-UP-Fabric-sofa-Flexform-636850-rel49587bf9.jpg",
+  },
+  {
+    id: 2,
+    img: "https://img.edilportale.com/product-thumbs/b_3f8a09f9-a930-0e8e-3ee5-d3ed1302ac86.jpeg",
+  },
+  {
+    id: 3,
+    img: "https://img.edilportale.com/product-thumbs/b_d9c1d1b2-6439-5c94-029f-7b5934314096.jpeg",
+  },
+  {
+    id: 4,
+    img: "https://img.edilportale.com/product-thumbs/b_e7827abc-cb51-8a7b-b8f1-eae4d89cf1be.jpeg",
+  },
+  {
+    id: 5,
+    img: "https://img.edilportale.com/product-thumbs/b_c14eede9-515d-d810-adff-a32b90740b6c.jpeg",
+  },
+  {
+    id: 6,
+    img: "https://img.edilportale.com/product-thumbs/b_a8d2178e-d5d2-9b56-964c-096c60c2f75b.jpeg",
+  },
+  {
+    id: 7,
+    img: "https://img.edilportale.com/product-thumbs/b_Minotti_TWIGGY_mj7PyqI6Bg.jpeg",
+  },
+  {
+    id: 8,
+    img: "https://img.edilportale.com/product-thumbs/b_opera-twils-634863-rel53db3ee7.jpg",
+  },
+];
