@@ -1,8 +1,13 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import Slider from "../components/Slider";
 
 const Home = () => {
-  return <h1>HOME</h1>;
+  return (
+    <>
+      <Slider />
+    </>
+  );
 };
 
 export default Home;
