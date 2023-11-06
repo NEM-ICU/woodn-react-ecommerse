@@ -14,16 +14,23 @@ import Announcement from "./components/Announcement.jsx";
 import Footer from "./components/Footer.jsx";
 import ProductList from "./pages/ProductList.jsx";
 import Product from "./pages/Product.jsx";
+import Register from "./pages/Register.jsx";
+import Login from "./pages/Login.jsx";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
-        <Route path="home" element={<Home />} />
-        <Route path="shop" element={<Shop />} />
-        <Route path="products" element={<ProductList />} />
-        <Route index element={<Product />} />
-      </Route>
+      <>
+        <Route path="/" element={<Root />}>
+          <Route path="home" element={<Home />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="products" element={<ProductList />} />
+          <Route index element={<Product />} />
+        </Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
+      </>
     )
   );
   return <RouterProvider router={router} />;
