@@ -4,7 +4,6 @@ import {
   Outlet,
   Route,
   RouterProvider,
-  Link,
 } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
@@ -16,20 +15,22 @@ import ProductList from "./pages/ProductList.jsx";
 import Product from "./pages/Product.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
+import Cart from "./pages/Cart.jsx";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Root />}>
-          <Route path="home" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="shop" element={<Shop />} />
+          <Route path="product/:id" element={<Product />} />
           <Route path="products" element={<ProductList />} />
-          <Route index element={<Product />} />
+          <Route path="products/:category" element={<ProductList />} />
+          <Route path="cart" element={<Cart />}></Route>
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-
       </>
     )
   );
