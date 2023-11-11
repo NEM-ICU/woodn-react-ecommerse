@@ -27,16 +27,19 @@ export const categories = [
     id: 1,
     img: "https://images.unsplash.com/photo-1619596662481-085e45d69762?auto=format&fit=crop&q=80&w=1964&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Living Room Furniture",
+    category: "living-room",
   },
   {
     id: 2,
     img: "https://images.unsplash.com/photo-1574873215043-44119461cb3b?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Bedroom Furniture",
+    category: "bed-room",
   },
   {
     id: 3,
     img: "https://images.unsplash.com/photo-1616486886892-ff366aa67ba4?auto=format&fit=crop&q=80&w=1780&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Dining Room Furniture",
+    category: "dining-room",
   },
 ];
 

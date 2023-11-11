@@ -3,6 +3,7 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Info = styled.div`
@@ -23,7 +24,7 @@ const Info = styled.div`
 const Container = styled.div`
   flex: 1;
   margin: 5px;
-  max-width: 350px;
+  width: 350px;
   height: 350px;
   display: flex;
   align-items: center;
@@ -44,7 +45,9 @@ const Circle = styled.div`
 `;
 
 const Image = styled.img`
-  height: 75%;
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
   z-index: 2;
 `;
 
@@ -74,10 +77,12 @@ const Product = ({ item }) => {
       <Info>
         <Icon>
           <ShoppingCartOutlined />
-        </Icon>
+        </Icon> 
+        <Link to={`/product/${item._id}`}>
         <Icon>
           <SearchOutlined />
         </Icon>
+        </Link>
         <Icon>
           <FavoriteBorderOutlined />
         </Icon>
