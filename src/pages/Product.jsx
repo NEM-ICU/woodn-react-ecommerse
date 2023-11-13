@@ -2,14 +2,18 @@ import styled from "styled-components";
 import Newsletter from "../components/Newsletter";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../../responsive";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../../requestMethod";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux";
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({padding: "10px", flexDirection:"column"})}
-
+  ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
 const ImageContainer = styled.div`
@@ -20,15 +24,13 @@ const Image = styled.img`
   width: 100%;
   height: 70vh;
   object-fit: cover;
-  ${mobile({height: "40vh"})}
-
+  ${mobile({ height: "40vh" })}
 `;
 
 const InfoContainer = styled.div`
   flex: 1;
   padding: 0px 50px;
-  ${mobile({padding: "10px"})}
-
+  ${mobile({ padding: "10px" })}
 `;
 const Title = styled.h1`
   font-weight: 200;
@@ -47,8 +49,7 @@ const FilterContainer = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
-  ${mobile({width: "100%"})}
-
+  ${mobile({ width: "100%" })}
 `;
 
 const Filter = styled.div`
@@ -75,15 +76,16 @@ const FilterSize = styled.select`
   padding: 5px;
 `;
 
-const FilterSizeOption = styled.option``;
+const FilterSizeOption = styled.option`
+  font-size: 16px;
+`;
 
 const AddContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 50%;
-  ${mobile({width: "100%"})}
-
+  ${mobile({ width: "100%" })}
 `;
 
 const AmountContainer = styled.div`
@@ -116,45 +118,76 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantitiy] = useState(1);
+
+  const [size, setSize] = useState(null);
+  const [color, setColor] = useState(null);
+  const dispatch = useDispatch();
+
+  // fetch product data
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("products/" + id);
+        setProduct(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, []);
+
+  const handleQuantitiy = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantitiy(quantity - 1);
+    } else {
+      setQuantitiy(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity }));
+  };
+
   return (
     <Container>
       <Wrapper>
         <ImageContainer>
-          <Image src="https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+          <Image src={product.img} />
         </ImageContainer>
         <InfoContainer>
-          <Title>Mag Chair</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo rerum
-            voluptatem dolore! Odio, deleniti accusamus. Molestias, voluptates
-            explicabo aspernatur, expedita veniam ipsum accusamus enim minima
-            alias pariatur laboriosam doloremque deleniti.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product.color?.map((c) => (
+                <FilterColor
+                  key={c}
+                  color={c.toLowerCase()}
+                  onClick={() => setColor(c)}
+                />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>6x4</FilterSizeOption>
-                <FilterSizeOption>6.5x5</FilterSizeOption>
-                <FilterSizeOption>7x5.8</FilterSizeOption>
-                <FilterSizeOption>8x6</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantitiy("dec")} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantitiy("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
