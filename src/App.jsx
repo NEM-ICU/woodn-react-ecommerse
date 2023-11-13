@@ -16,6 +16,7 @@ import Product from "./pages/Product.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Cart from "./pages/Cart.jsx";
+import Success from "./pages/Success.jsx";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -31,6 +32,7 @@ const App = () => {
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/success" element={<Success />} />
       </>
     )
   );

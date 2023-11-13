@@ -2,6 +2,7 @@ import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import { mobile } from "../../responsive";
 import { useSelector } from "react-redux";
+import { publicRequest } from "../../requestMethod";
 
 const Container = styled.div``;
 
@@ -154,7 +155,33 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
+
+  const handleCheckout = () => {
+    const createPaymentUrl = async () => {
+      const payload = [];
+      for (let i = 0; i < cart.products.length; i++) {
+        const product = cart.products[i];
+        payload.push([
+          product._id,
+          {
+            priceInCents: product.price * product.quantity * 100,
+            name: product.title,
+          },
+        ]);
+      }
+      try {
+        console.log(payload);
+        const res = await publicRequest.post(
+          "stripe/create-checkout-session",
+          payload
+        );
+        window.location.replace(res.data.url);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    createPaymentUrl();
+  };
   return (
     <Container>
       <Wrapper>
@@ -162,7 +189,7 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag (2)</TopText>
+            <TopText>Shopping Bag ({cart.products.length})</TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
@@ -170,36 +197,37 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <Product key={product._id}>
-                <ProductDetail>
-                  <Image src={product.img} />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b> {product.title}
-                    </ProductName>
-                    <ProductId>
-                      <b>ID:</b> {product._id}
-                    </ProductId>
-                    <ProductColor color={product.color} />
-                    <ProductSize>
-                      <b>Size:</b> {product.size}
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Add />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
-                  </ProductAmountContainer>
-                  <ProductPrice>
-                    {product.price * product.quantity}
-                  </ProductPrice>
-                </PriceDetail>
-              </Product>
+              <>
+                <Product key={product._id}>
+                  <ProductDetail>
+                    <Image src={product.img} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <b>ID:</b> {product._id}
+                      </ProductId>
+                      <ProductColor color={product.color} />
+                      <ProductSize>
+                        <b>Size:</b> {product.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      {product.price * product.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+                <Hr />
+              </>
             ))}
-
-            {/* <Hr /> */}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -219,7 +247,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total + 15}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={handleCheckout}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
