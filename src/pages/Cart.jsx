@@ -2,7 +2,7 @@ import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import { mobile } from "../../responsive";
 import { useSelector } from "react-redux";
-import { publicRequest } from "../../requestMethod";
+import { publicRequest, userRequest } from "../../requestMethod";
 
 const Container = styled.div``;
 
@@ -159,6 +159,9 @@ const Cart = () => {
   const handleCheckout = () => {
     const createPaymentUrl = async () => {
       const payload = [];
+      const productList = [];
+      const userId = localStorage.getItem("id");
+
       for (let i = 0; i < cart.products.length; i++) {
         const product = cart.products[i];
         payload.push([
@@ -169,8 +172,20 @@ const Cart = () => {
           },
         ]);
       }
+
+      for (let i = 0; i < cart.products.length; i++) {
+        const product = cart.products[i];
+        productList.push([product._id, product.quantity]);
+      }
+      const total = cart.total;
+      console.log(total);
       try {
-        console.log(payload);
+        const orderRes = await userRequest.post("/orders", {
+          userId,
+          productList,
+          total,
+        });
+
         const res = await publicRequest.post(
           "stripe/create-checkout-session",
           payload

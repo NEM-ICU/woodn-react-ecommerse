@@ -3,6 +3,7 @@ import { mobile } from "../../responsive";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { publicRequest } from "../../requestMethod";
 
 const Container = styled.div`
   width: 100vw;
@@ -66,17 +67,34 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { isFetching, error } = useSelector((state) => state.user);
 
-  const dispatch = useDispatch();
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { email, password });
+    const handleLogin = async () => {
+      e.preventDefault();
+      try {
+        const response = await publicRequest.post("users/login", {
+          email,
+          password,
+        });
+
+        console.log(response.data);
+
+        const token = response.data.token;
+        const id = response.data.userId;
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("id", id);
+
+        window.location.replace("http://localhost:5173/");
+
+        console.log("Login successful");
+      } catch (error) {
+        console.error("Login failed", error);
+      }
+    };
+    handleLogin();
   };
 
-  const user = useSelector((state) => state.user.currentUser);
-  if (user) {
-    window.location.replace("http://localhost:5173/");
-    // 1.35.25
-  }
   return (
     <Container>
       <Wrapper>
